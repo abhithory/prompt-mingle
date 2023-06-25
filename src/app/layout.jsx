@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar"
 import "@/styles/globals.css"
 
 
@@ -14,6 +15,7 @@ export default function layout({children}) {
                 <div className="gradient" />
             </div>
             <main className="app">
+                <Navbar />
             {children}
             </main>
         </body>
