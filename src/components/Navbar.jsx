@@ -41,7 +41,8 @@ function Navbar() {
                         <Link href="/create-prompt" className='black_btn'>
                             Create Prompt
                         </Link>
-                        <button type='button' className='outline_btn'>Sign Out</button>
+                        <button type='button' className='outline_btn' onClick={() => signOut}
+                        >Sign Out</button>
                         <Link href="/profile">
                             <Image
                                 src={session?.user?.image}
