@@ -2,7 +2,12 @@
 import CreatePromptForm from '@/components/CreatePromptForm'
 import React, { useState } from 'react'
 
+import { useSession } from "next-auth/react"
+
+
 function page() {
+  const { data: session, status } = useSession()
+
   const [creating, setCreating] = useState(false);
   const [prompt, setPrompt] = useState({
     prompt: "",
@@ -13,8 +18,22 @@ function page() {
   async function createPrompt(e) {
     e.preventDefault();
     setCreating(true)
-    console.log(prompt);
-    setCreating(false)
+    try {
+      
+      const _res = await fetch("/api/prompt/new", {
+        method:"POST",
+        body:JSON.stringify({
+          promptData:"prompt",
+          userid:session.user.id
+        })
+      })
+      console.log(await _res.json());
+    } catch (error) {
+      
+      console.log(error);
+    } finally{
+      setCreating(false)
+    }
   }
   return (
     <section className="w-full max-w-full flex-start flex-col">
