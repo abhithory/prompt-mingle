@@ -20,7 +20,7 @@ function Navbar() {
         }
         loadAllProviders();
     }, [])
-
+    console.log(session);
     return (
         <nav className="flex-between w-full pt-2 mb-4">
             <Link href='/' className='flex gap-2 flex-center'>
@@ -41,7 +41,8 @@ function Navbar() {
                         <Link href="/create-prompt" className='black_btn'>
                             Create Prompt
                         </Link>
-                        <button type='button' className='outline_btn' onClick={() => signOut}
+                        <button type='button' className='outline_btn' 
+                        onClick={() => signOut()}
                         >Sign Out</button>
                         <Link href="/profile">
                             <Image
@@ -55,7 +56,7 @@ function Navbar() {
                         </Link>
                     </>
                     :
-                    Object.values(allProviders).map((provider) => {
+                    allProviders && Object.values(allProviders).map((provider) => {
                         return (
                             <button key={provider.id} type='button' className='outline_btn' onClick={() => signIn(provider.id)}>Sign In</button>
                         )
@@ -102,7 +103,7 @@ function Navbar() {
                         )}
                     </>
                     :
-                    Object.values(allProviders).map((provider) => {
+                    allProviders && Object.values(allProviders).map((provider) => {
                         return (
                             <button key={provider.id} type='button' className='outline_btn' onClick={() => signIn(provider.id)}>Sign In</button>
                         )
