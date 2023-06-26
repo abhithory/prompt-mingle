@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { useSession, signIn, signOut,getProviders } from "next-auth/react"
+import { useSession, signIn, signOut, getProviders } from "next-auth/react"
 
 
 function Navbar() {
@@ -16,8 +16,6 @@ function Navbar() {
     useEffect(() => {
         async function loadAllProviders() {
             const _all = await getProviders();
-            console.log("all providers",_all);
-            console.log(session);
             setAllProviders(_all);
         }
         loadAllProviders();
@@ -38,7 +36,7 @@ function Navbar() {
 
             {/* Desktop navigation */}
             <div className="sm:flex hidden gap-4">
-                {session ?
+                {session?.user ?
                     <>
                         <Link href="/create-prompt" className='black_btn'>
                             Create Prompt
@@ -46,32 +44,34 @@ function Navbar() {
                         <button type='button' className='outline_btn'>Sign Out</button>
                         <Link href="/profile">
                             <Image
-                                src='/assets/images/logo.png'
+                                src={session?.user?.image}
                                 alt='logo'
                                 width={30}
                                 height={30}
-                                className='object-contain'
+                                className='object-contain rounded-full'
                             />
 
                         </Link>
                     </>
                     :
-                    <>
-                        <button type='button' className='outline_btn'>Sign In</button>
-                    </>
+                    Object.values(allProviders).map((provider) => {
+                        return (
+                            <button key={provider.id} type='button' className='outline_btn' onClick={() => signIn(provider.id)}>Sign In</button>
+                        )
+                    })
                 }
 
             </div>
             {/* mobile navigation */}
             <div className="sm:hidden flex relative">
-                {session ?
+                {session?.user ?
                     <>
                         <Image
-                            src='/assets/images/logo.png'
+                            src={session?.user?.image}
                             alt='logo'
                             width={30}
                             height={30}
-                            className='object-contain cursor-pointer'
+                            className='object-contain cursor-pointer rounded-full'
                             onClick={() => setToggleDropdown(!toggleDropdown)}
                         />
 
@@ -101,11 +101,11 @@ function Navbar() {
                         )}
                     </>
                     :
-                    <>
-                    {/* Object.values(allProviders).forEach((item) => {
-                        <button type='button' className='outline_btn'>Sign In</button>
-                    }) */}
-                    </>
+                    Object.values(allProviders).map((provider) => {
+                        return (
+                            <button key={provider.id} type='button' className='outline_btn' onClick={() => signIn(provider.id)}>Sign In</button>
+                        )
+                    })
                 }
             </div>
 
