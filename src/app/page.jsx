@@ -1,3 +1,4 @@
+import Feed from '@/components/Feed'
 import React from 'react'
 
 function page() {
@@ -7,8 +8,9 @@ function page() {
         <br className='max-md:hidden' />
         <span className='orange_gradient text-center'> PromptMingle!</span>
         </h1>
-
         <p className='desc text-center'>Ignite your creativity with PromptMingle. Share, inspire, and create together in our vibrant community of writers, artists, and thinkers. Join now and let your imagination soar.</p>
+
+        <Feed />
     </div>
   )
 }

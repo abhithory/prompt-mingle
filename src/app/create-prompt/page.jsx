@@ -3,9 +3,13 @@ import CreatePromptForm from '@/components/CreatePromptForm'
 import React, { useState } from 'react'
 
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation";
 
 
 function page() {
+  const router = useRouter();
+
+
   const { data: session, status } = useSession()
 
   const [creating, setCreating] = useState(false);
@@ -23,11 +27,13 @@ function page() {
       const _res = await fetch("/api/prompt/new", {
         method:"POST",
         body:JSON.stringify({
-          promptData:"prompt",
+          promptData:prompt,
           userid:session.user.id
         })
       })
-      console.log(await _res.json());
+      if (_res.ok) {
+        router.push("/")
+      }
     } catch (error) {
       
       console.log(error);
