@@ -3,31 +3,33 @@ import CreatePromptForm from '@/components/CreatePromptForm'
 import React, { useState } from 'react'
 
 import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 
 function page() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const promptId = searchParams.get("id");
 
 
   const { data: session, status } = useSession()
 
-  const [creating, setCreating] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState({
     prompt: "",
     tag: ""
   })
 
 
-  async function createPrompt(e) {
+  async function updatePrompt(e) {
     e.preventDefault();
-    setCreating(true)
+    setLoading(true)
     try {
-      const _res = await fetch("/api/prompt/new", {
-        method:"POST",
+      const _res = await fetch("/api/prompt/"+promptId, {
+        method:"PATCH",
         body:JSON.stringify({
-          promptData:prompt,
-          userid:session.user.id
+          prompt:prompt.prompt,
+          tag:prompt.tag
         })
       })
       if (_res.ok) {
@@ -37,17 +39,15 @@ function page() {
       
       console.log(error);
     } finally{
-      setCreating(false)
+      setLoading(false)
     }
   }
   return (
     <section className="w-full max-w-full flex-start flex-col">
       <h1 className='head_text text-left'>
-        <span className='blue_gradient'>Create Post</span>
+        <span className='blue_gradient'>Update Prompt</span>
       </h1>
-      <p>create and share amazing prompts with the world, and let your
-        imagination run wild with any AI-powered platform</p>
-        <CreatePromptForm type={"Update"} loading={creating} setPrompt={setPrompt} prompt={prompt} handleForm={createPrompt} />
+      <CreatePromptForm type={"Update"} loading={loading} setPrompt={setPrompt} prompt={prompt} handleForm={updatePrompt} />
     </section>
   )
 }

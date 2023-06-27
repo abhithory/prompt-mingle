@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import React from 'react'
 
-function CreatePromptForm({ creating, setPrompt, handleCreatePrompt, prompt
+function CreatePromptForm({ type,loading, setPrompt, handleForm, prompt
 }) {
     return (
-        <form onSubmit={handleCreatePrompt} className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism">
+        <form onSubmit={handleForm} className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism">
             <label>
                 <span className='font-satoshi font-semibold text-base text-gray-700'>
                     Your AI Prompt
@@ -27,10 +27,10 @@ function CreatePromptForm({ creating, setPrompt, handleCreatePrompt, prompt
                 <Link href="/" className='text-gray-500 text-sm'>
                     Cancel
                 </Link>
-                <button type='submit' disabled={creating}
+                <button type='submit' disabled={loading}
                 className='px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white'
                 >
-                    {creating? "Creating":"Create"}
+                    {loading? `${type}ing`:type}
                 </button>
             </div>
         </form>

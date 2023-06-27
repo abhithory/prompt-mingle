@@ -12,7 +12,6 @@ function Profile() {
     const { data: session } = useSession();
     const [allPrompts, setAllPrompts] = useState([]);
 
-
     useEffect(() => {
         async function loadPrompts() {
             const _prompts = await fetch(`/api/users/${session.user.id}/prompts`);
@@ -24,17 +23,31 @@ function Profile() {
     }, [session?.user?.id]);
 
     const handleTagClick = (tagName) => {
+
     }
 
     const handleEdit = (post) => {
         router.push(`/update-prompt?id=${post._id}`);
     };
 
+
     const handleDelete = async (post) => {
         const hasConfirmed = confirm(
             "Are you sure you want to delete this prompt?"
         );
-    }
+
+        if (hasConfirmed) {
+            try {
+                await fetch(`/api/prompt/${post._id.toString()}`, {
+                    method: "DELETE",
+                });
+                const filteredPosts = allPrompts.filter((item) => item._id !== post._id);
+                setAllPrompts(filteredPosts);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
 
     return (
         <ProfileComponent
