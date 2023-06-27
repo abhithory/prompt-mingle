@@ -1,21 +1,17 @@
 import React from 'react'
+import PromptCard from './PromptCard'
 
 function PromptList({ data }) {
     return (
-        data && data.map((prompt) => {
+        <div className='mt-16 prompt_layout'>
+
+        {data && data.map((prompt, handleTagClick) => {
             return (
-                <PromptCard prompt={prompt} />
+            <PromptCard key={prompt._id} prompt={prompt} handleTagClick={handleTagClick} />
             )
-        })
-
-    )
-}
-
-function PromptCard({prompt}) {
-    return (
-        <div className="border-4 p-4 ">
-            <p>{prompt.prompt}</p>
+        })}
         </div>
+
     )
 }
 
